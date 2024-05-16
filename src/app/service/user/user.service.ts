@@ -11,21 +11,32 @@ export class UserService {
   constructor(private restService: RestService) {}
 
   public getUsers(): Observable<Array<User>> {
-    return this.restService.get<Array<User>>('users');
+    return this.restService.get<Array<User>>({ microservice: 'users' });
   }
 
   public getUserById(userId: number): Observable<User> {
-    return this.restService.get<User>('user', String(userId));
+    return this.restService.get<User>({
+      microservice: 'user',
+      subPath: String(userId),
+    });
   }
 
   public updateUser(userId: number, body: UpdateUserBody): Observable<User> {
-    return this.restService.put('user', body, String(userId));
+    return this.restService.put({
+      microservice: 'user',
+      subPath: String(userId),
+      body,
+    });
   }
 
   public changePassword(
     userId: number,
     body: ChangePasswordBody
   ): Observable<User> {
-    return this.restService.put('user', body, String(userId) + '/password');
+    return this.restService.put({
+      microservice: 'user',
+      subPath: String(userId) + '/password',
+      body,
+    });
   }
 }
