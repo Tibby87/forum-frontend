@@ -3,7 +3,6 @@ import { RestService } from '../rest/rest.service';
 import { User } from '../../model/user/user';
 import { Injectable } from '@angular/core';
 import { UpdateUserBody } from '../../model/user/update-user-body';
-import { RestResponse } from '../../model/rest/rest-response';
 import { ChangePasswordBody } from '../../model/user/change-password-body';
 
 @Injectable({ providedIn: 'root' })
