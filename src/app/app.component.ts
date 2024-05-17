@@ -13,6 +13,7 @@ import { Topic } from './model/topics/topic';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCommonModule } from '@angular/material/core';
+import { LayoutComponent } from './layout/layout.component';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ import { MatCommonModule } from '@angular/material/core';
     MatExpansionModule,
     MatCommonModule,
     MatButtonModule,
+    LayoutComponent,
   ],
   providers: [
     HttpClient,
@@ -37,21 +39,7 @@ import { MatCommonModule } from '@angular/material/core';
   ],
 })
 export class AppComponent implements OnInit {
-  users$: Observable<Array<User>>;
-  topics$: Observable<Array<Topic>>;
+  constructor() {}
 
-  constructor(
-    private userService: UserService,
-    private topic: TopicsService,
-    private rolesService: RolesService
-  ) {
-    this.users$ = this.userService.getUsers();
-    this.topics$ = this.topic.getAllTopics();
-  }
-
-  ngOnInit(): void {
-    this.rolesService
-      .getUsersByRoleId(3)
-      .subscribe((value) => console.log(value));
-  }
+  ngOnInit(): void {}
 }

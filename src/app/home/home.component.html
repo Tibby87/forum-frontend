@@ -1,0 +1,27 @@
+<div class="home-container">
+  <section class="intro-section">
+    <h1>Welcome to the Forum</h1>
+    <h4>Here you can take part in the most interesting discussions</h4>
+  </section>
+  <section class="topics-section">
+    <ng-container *ngIf="topics$ | async as topics">
+      <app-topic-list [topics]="topics"></app-topic-list>
+    </ng-container>
+  </section>
+  <div
+    style="
+      width: 80%;
+      max-width: 500px;
+
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: center;
+    "
+  >
+    <input type="text" class="nice-input" placeholder="Create a new topic" />
+    <p></p>
+    <button (click)="sendTopic()" class="basic-button">Send</button>
+  </div>
+</div>

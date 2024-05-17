@@ -22,7 +22,11 @@ export class TopicsService {
   }
 
   public addTopic(body: Partial<Topic>): Observable<Topic> {
-    return this.restService.post<Topic>({ microservice: 'topic', body });
+    return this.restService.post<Topic>({
+      microservice: 'topic',
+      subPath: 'add',
+      body,
+    });
   }
 
   public getTopicById(topicId: number): Observable<Topic> {

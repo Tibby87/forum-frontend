@@ -1,16 +1,3 @@
-<div>
-  <div *ngIf="topics$ | async as topics">
-    <div style="display: flex; flex-direction: column; gap: 40px">
-      <div *ngFor="let topic of topics">
-        <mat-accordion>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>{{ topic.title }}</mat-panel-title>
-            </mat-expansion-panel-header>
-            <div></div>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
-    </div>
-  </div>
-</div>
+<app-layout>
+  <router-outlet></router-outlet>
+</app-layout>

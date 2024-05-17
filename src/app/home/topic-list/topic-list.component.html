@@ -1,0 +1,13 @@
+<div style="display: flex; flex-direction: column; gap: 4px">
+  <ng-container *ngFor="let topic of topics">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ topic.title }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <app-comment-tree [comments]="topic.comments"></app-comment-tree>
+        <input placeholder="Leave a comment" type="text" class="nice-input" />
+      </div>
+    </mat-expansion-panel>
+  </ng-container>
+</div>

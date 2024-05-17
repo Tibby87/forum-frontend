@@ -1,4 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+* {
+  margin: 0;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 !important;
+}
+
+.nice-input {
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  &:focus-visible {
+    // border: none;
+    outline: 2px solid cadetblue;
+  }
+}
+
+.basic-button {
+  background-color: cadetblue;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  cursor: pointer; /* Indicate clickable element */
+}
+
+mat-expansion-panel-header.mat-expanded {
+  height: 48px !important;
+}
