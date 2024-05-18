@@ -1,4 +1,15 @@
 header {
-  padding: 20px 40px;
   background-color: cadetblue;
+  color: whitesmoke;
+  font-weight: 600;
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .logo-container {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
 }

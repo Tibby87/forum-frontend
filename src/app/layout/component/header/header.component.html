@@ -1,5 +1,14 @@
 <header>
-  <div>
-    <p>HEADER</p>
-  </div>
+  <section class="logo-container">
+    <mat-icon
+      routerLink="/"
+      *ngIf="(currentRoute$ | async) !== '/'"
+      class="action"
+      matTooltip="Back home"
+      >arrow_back</mat-icon
+    >
+    <p>FORUM</p>
+    <mat-icon>forum</mat-icon>
+  </section>
+  <app-header-actions />
 </header>

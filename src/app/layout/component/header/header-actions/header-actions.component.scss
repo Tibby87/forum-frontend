@@ -1,0 +1,17 @@
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  .user-selector,
+  .user-name {
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  .user-name {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
