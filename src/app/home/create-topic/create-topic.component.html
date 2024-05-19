@@ -1,0 +1,30 @@
+<form [formGroup]="topicform">
+  <div class="topic-input-container flex column gap-8">
+    <h4>Create a topic</h4>
+    <div class="flex column">
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          id="title"
+          name="title"
+          formControlName="title"
+          type="text"
+          placeholder="Topic title"
+        />
+        <mat-error>This field is required</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          id="title"
+          name="title"
+          formControlName="body"
+          type="text"
+          placeholder="Topic body"
+        />
+        <mat-error>This field is required</mat-error>
+      </mat-form-field>
+    </div>
+    <button class="basic-button" (click)="initTopicSend()">Send</button>
+  </div>
+</form>

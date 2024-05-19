@@ -5,11 +5,14 @@
         <mat-panel-title
           ><span class="topic-title">{{ topic.title }}</span></mat-panel-title
         >
-        <span class="author-name" style="margin-right: 16px">
-          by {{ topic.author.name }}</span
-        >
       </mat-expansion-panel-header>
-      <div class="flex column gap-16 pt-2">
+      <div class="flex column gap-16">
+        <p>
+          {{ topic.body }}
+          <span class="author-name" style="margin-right: 16px">
+            by {{ topic.author.name }}</span
+          >
+        </p>
         <ng-container *ngIf="topic.comments?.length">
           <app-comment-tree
             [comments]="topic.comments"

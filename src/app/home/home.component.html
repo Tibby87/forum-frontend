@@ -12,11 +12,7 @@
       ></app-topic-list>
     </ng-container>
   </section>
-  <div class="topic-input-container flex column gap-8">
-    <input type="text" class="nice-input" placeholder="Create a new topic" />
-    <p></p>
-    <button (click)="sendTopic()" class="basic-button">Send</button>
-  </div>
+  <app-create-topic (topicSent)="initTopics()"></app-create-topic>
 </div>
 
 <ng-template #loading>

@@ -9,11 +9,17 @@ import { AppState } from '../reducers';
 import { User } from '../model/user/user';
 import { selectCurrentUser } from '../reducers/user/user.selector';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CreateTopicComponent } from './create-topic/create-topic.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [TopicListComponent, CommonModule, MatProgressSpinnerModule],
+  imports: [
+    TopicListComponent,
+    CommonModule,
+    MatProgressSpinnerModule,
+    CreateTopicComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -34,9 +40,5 @@ export class HomeComponent {
       .getAllTopics()
       .pipe(take(1), share())
       .subscribe((topics) => (this.topics = topics));
-  }
-
-  sendTopic(): void {
-    this.initTopics();
   }
 }

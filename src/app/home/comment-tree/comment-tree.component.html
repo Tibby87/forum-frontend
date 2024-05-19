@@ -24,12 +24,10 @@
               [topicId]="topicId"
             ></app-comment-tree>
           </ng-container>
-          <div class="pt-2">
-            <app-leave-comment
-              [originalAuthor]="comment.author"
-              (commentEmmitted)="handleSendComment(comment.id, $event)"
-            ></app-leave-comment>
-          </div>
+          <app-leave-comment
+            [originalAuthor]="comment.author"
+            (commentEmmitted)="handleSendComment(comment.id, $event)"
+          ></app-leave-comment>
         </div>
       </mat-expansion-panel>
     </ng-container>
