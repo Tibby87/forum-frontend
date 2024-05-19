@@ -1,19 +1,44 @@
 <ng-container *ngIf="comments.length > 0">
   <div style="display: flex; flex-direction: column; gap: 2px">
     <ng-container *ngFor="let comment of comments">
-      <mat-expansion-panel>
+      <mat-expansion-panel
+        [expanded]="openTab === comment.id"
+        (expandedChange)="handleExpandChange($event, comment.id)"
+        [disabled]="comment.removed"
+      >
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <div>
-              <span
-                [class.author]="comment.author.id | isCurrentUser | async"
-                >{{ comment.author.name }}</span
-              >
-              -
-              <span
-                [class.comment]="comment.author.id | isCurrentUser | async"
-                >{{ comment.body }}</span
-              >
+            <div class="flex row gap-20">
+              <p [class.comment-removed]="comment.removed">
+                <span
+                  [ngClass]="
+                    (comment.author.id | isCurrentUser | async)
+                      ? 'author-self'
+                      : 'author-different'
+                  "
+                  >{{ comment.author.name }} says:</span
+                >
+                <span
+                  [class.comment-self]="
+                    comment.author.id | isCurrentUser | async
+                  "
+                >
+                  {{ comment.body }}
+                </span>
+              </p>
+              <app-topic-actions
+                *ngIf="
+                  !comment.removed &&
+                  (comment.author.id
+                    | hasModificationAccess : 'comment'
+                    | async)
+                "
+                context="comment"
+                [contentToEdit]="comment.body"
+                (deleteConfirmed)="handeDelete(comment.id)"
+                (contentModified)="handleCommentEdit(comment.id, $event)"
+                [hideDelete]="comment.removed"
+              ></app-topic-actions>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>

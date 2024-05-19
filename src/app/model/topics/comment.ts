@@ -5,4 +5,5 @@ export interface Comment {
   body: string;
   author: Author;
   comments: Array<Comment>;
+  removed?: boolean;
 }

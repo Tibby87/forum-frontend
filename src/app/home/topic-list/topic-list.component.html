@@ -1,23 +1,44 @@
 <div style="display: flex; flex-direction: column; gap: 4px">
   <ng-container *ngFor="let topic of topics">
-    <mat-expansion-panel>
+    <mat-expansion-panel
+      [expanded]="openTab === topic.id"
+      (expandedChange)="handleExpandChange($event, topic.id)"
+    >
       <mat-expansion-panel-header>
-        <mat-panel-title
-          ><span class="topic-title">{{ topic.title }}</span></mat-panel-title
-        >
+        <mat-panel-title>
+          <div class="flex row centered gap-20">
+            <span class="topic-title">{{ topic.title }}</span>
+            <app-topic-actions
+              *ngIf="topic.author.id | hasModificationAccess : 'topic' | async"
+              context="topic title"
+              [contentToEdit]="topic.title"
+              (contentModified)="handleTopicEdited(topic.id, 'title', $event)"
+              (deleteConfirmed)="handleDeleteTopic(topic.id)"
+            ></app-topic-actions>
+          </div>
+        </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="flex column gap-16">
-        <p>
-          {{ topic.body }}
-          <span class="author-name" style="margin-right: 16px">
-            by {{ topic.author.name }}</span
-          >
-        </p>
+        <div class="flex row centered gap-20">
+          <p>
+            {{ topic.body }}
+            <span style="margin-right: 16px">
+              - by {{ topic.author.name }}</span
+            >
+          </p>
+          <app-topic-actions
+            *ngIf="topic.author.id | hasModificationAccess : 'topic' | async"
+            [context]="'topic body'"
+            [contentToEdit]="topic.body"
+            [hideDelete]="true"
+            (contentModified)="handleTopicEdited(topic.id, 'body', $event)"
+          ></app-topic-actions>
+        </div>
         <ng-container *ngIf="topic.comments?.length">
           <app-comment-tree
             [comments]="topic.comments"
             [topicId]="topic.id"
-            (commentSent)="commentSent.emit()"
+            (commentChanged)="topicModified.emit()"
           ></app-comment-tree>
         </ng-container>
         <app-leave-comment

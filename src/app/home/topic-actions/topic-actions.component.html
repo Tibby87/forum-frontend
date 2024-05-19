@@ -1,0 +1,11 @@
+<div class="flex row gap-8">
+  <div *ngIf="" (click)="handleEditClick(); $event.stopImmediatePropagation()">
+    <mat-icon class="cursor-pointer">edit_outline</mat-icon>
+  </div>
+  <div
+    *ngIf="!hideDelete"
+    (click)="hanndleDeleteClick(); $event.stopImmediatePropagation()"
+  >
+    <mat-icon class="cursor-pointer">delete_outline</mat-icon>
+  </div>
+</div>

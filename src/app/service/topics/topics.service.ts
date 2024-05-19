@@ -37,7 +37,7 @@ export class TopicsService {
     });
   }
 
-  public updateTopic(topicId: number, body: any): Observable<Topic> {
+  public updateTopic(topicId: number, body: Partial<Topic>): Observable<Topic> {
     return this.restService.put<Topic>({
       microservice: 'topic',
       subPath: String(topicId),

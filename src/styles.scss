@@ -21,6 +21,10 @@ h6 {
   margin: 0 !important;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .nice-input {
   border: 1px solid gray;
   border-radius: 4px;
@@ -32,15 +36,29 @@ h6 {
   }
 }
 
-.basic-button {
-  background-color: cadetblue;
-  color: white;
+button {
   padding: 12px 24px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-weight: 600;
+}
 
+.subdued-button {
+  background-color: whitesmoke;
+  color: black;
+
+  &:hover {
+    background-color: darken(whitesmoke, 4%);
+  }
+  &:active {
+    background-color: darken(whitesmoke, 2%);
+  }
+}
+
+.basic-button {
+  background-color: cadetblue;
+  color: white;
   &:hover {
     background-color: lighten(cadetblue, 2%);
   }
@@ -48,6 +66,11 @@ h6 {
   &:active {
     background-color: darken(cadetblue, 2%);
   }
+}
+
+.dialog-wrapper {
+  width: 600px;
+  max-width: 80%;
 }
 
 mat-expansion-panel-header,

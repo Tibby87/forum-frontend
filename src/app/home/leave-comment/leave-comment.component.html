@@ -2,6 +2,7 @@
   <div class="flex row centered gap-32">
     <input
       [(ngModel)]="commentBody"
+      (keydown.enter)="initCommentSend()"
       (ngModelChange)="handleChange()"
       [placeholder]="
         (originalAuthor.id | isCurrentUser | async)

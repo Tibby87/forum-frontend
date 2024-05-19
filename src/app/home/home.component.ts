@@ -10,6 +10,7 @@ import { User } from '../model/user/user';
 import { selectCurrentUser } from '../reducers/user/user.selector';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CreateTopicComponent } from './create-topic/create-topic.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,8 @@ export class HomeComponent {
 
   constructor(
     private topicService: TopicsService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private snackBar: MatSnackBar
   ) {
     this.initTopics();
     this.currentUser$ = this.store.select(selectCurrentUser);
@@ -40,5 +42,9 @@ export class HomeComponent {
       .getAllTopics()
       .pipe(take(1), share())
       .subscribe((topics) => (this.topics = topics));
+  }
+
+  showModificationSnackBar(): void {
+    this.snackBar.open('Successfully modified');
   }
 }

@@ -1,18 +1,18 @@
-<section class="header-actions">
-  <p *ngIf="currentUser$ | async as user">
+<section *ngIf="currentUser$ | async as user" class="header-actions">
+  <p>
     Hi,
     <span
-      (click)="navigateToUserPage(user)"
+      [mat-menu-trigger-for]="menu"
       class="user-name"
-      matTooltip="Go to user page"
+      matTooltip="Select user"
     >
       {{ user.name }}
     </span>
   </p>
   <mat-icon
-    class="user-selector"
-    [mat-menu-trigger-for]="menu"
-    matTooltip="Select user"
+    (click)="navigateToUserPage(user)"
+    class="user-icon"
+    matTooltip="Go to user page"
   >
     person
   </mat-icon>

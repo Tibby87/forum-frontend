@@ -27,8 +27,18 @@
   }
 }
 
+@mixin set-padding($padding-size) {
+  padding: #{$padding-size}px;
+}
+
 @mixin set-inline-padding($padding-size) {
   padding-inline: #{$padding-size}px;
+}
+
+@for $padding from 4 to 100 {
+  .p-#{$padding} {
+    @include set-padding($padding);
+  }
 }
 
 @for $padding from 4 to 100 {

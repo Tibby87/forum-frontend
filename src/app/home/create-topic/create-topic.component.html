@@ -1,4 +1,4 @@
-<form [formGroup]="topicform">
+<form *ngIf="allowedToCreateTopic$ | async" [formGroup]="topicform">
   <div class="topic-input-container flex column gap-8">
     <h4>Create a topic</h4>
     <div class="flex column">
@@ -28,3 +28,5 @@
     <button class="basic-button" (click)="initTopicSend()">Send</button>
   </div>
 </form>
+
+<ng-template></ng-template>

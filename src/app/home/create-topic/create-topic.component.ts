@@ -16,6 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TopicsHelperService } from '../../service/topics/topics-helper.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { selectUserHasRight } from '../../reducers/roles/roles.selctor';
+import { RightNamesEnum } from '../../model/roles/right-name';
 
 @Component({
   selector: 'app-create-topic',
@@ -32,6 +34,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class CreateTopicComponent implements OnInit {
   @Output() topicSent = new EventEmitter<void>();
   user$: Observable<User>;
+  allowedToCreateTopic$: Observable<boolean>;
   topicform: FormGroup;
   constructor(
     private store: Store<AppState>,
@@ -40,6 +43,9 @@ export class CreateTopicComponent implements OnInit {
     private snackbar: MatSnackBar
   ) {
     this.user$ = this.store.select(selectCurrentUser);
+    this.allowedToCreateTopic$ = this.store.select(
+      selectUserHasRight(RightNamesEnum.ADD_DELETE_TOPICS)
+    );
   }
 
   ngOnInit(): void {

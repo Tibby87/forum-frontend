@@ -8,11 +8,13 @@
       <app-topic-list
         *ngIf="topics.length; else empty"
         [topics]="topics"
-        (commentSent)="initTopics()"
+        (topicModified)="initTopics(); showModificationSnackBar()"
       ></app-topic-list>
     </ng-container>
   </section>
-  <app-create-topic (topicSent)="initTopics()"></app-create-topic>
+  <app-create-topic
+    (topicSent)="initTopics(); showModificationSnackBar()"
+  ></app-create-topic>
 </div>
 
 <ng-template #loading>

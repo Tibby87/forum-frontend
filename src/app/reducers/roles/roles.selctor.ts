@@ -7,19 +7,19 @@ export const selectRolesState = createFeatureSelector<RolesState>('roles');
 
 export const selectUserRole = createSelector(
   selectRolesState,
-  (state) => state.userRole
+  (state) => state?.userRole
 );
 
 export const selectUserRights = createSelector(selectUserRole, (userRole) =>
-  RolesHelperService.getUserRightArray(userRole.rights)
+  RolesHelperService.getUserRightArray(userRole?.rights)
 );
 
 export const selectUserHasRight = (rightName: RightNamesEnum) =>
   createSelector(selectUserRights, (userRights) =>
-    userRights.includes(rightName)
+    userRights?.includes(rightName)
   );
 
 export const selectUsersDeniedActions = createSelector(
   selectUserRole,
-  (userRole) => RolesHelperService.getUsersDeniedActions(userRole.rights)
+  (userRole) => RolesHelperService.getUsersDeniedActions(userRole?.rights)
 );

@@ -11,13 +11,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { LeaveCommentComponent } from '../leave-comment/leave-comment.component';
 import { IsCurrentUserPipe } from '../../pipe/is-current-user.pipe';
 import { Observable, Subject } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { User } from '../../model/user/user';
 import { AppState } from '../../reducers';
 import { Store } from '@ngrx/store';
 import { selectCurrentUser } from '../../reducers/user/user.selector';
 import { TopicsService } from '../../service/topics/topics.service';
 import { TopicsHelperService } from '../../service/topics/topics-helper.service';
+import { TopicActionsComponent } from '../topic-actions/topic-actions.component';
+import { HasModificationAccessPipe } from '../../pipe/has-modification-access.pipe';
 
 @Component({
   selector: 'app-comment-tree',
@@ -29,14 +31,18 @@ import { TopicsHelperService } from '../../service/topics/topics-helper.service'
     MatExpansionModule,
     LeaveCommentComponent,
     IsCurrentUserPipe,
+    TopicActionsComponent,
+    HasModificationAccessPipe,
   ],
 })
 export class CommentTreeComponent implements OnDestroy {
   @Input() comments: Comment[] = [];
   @Input() topicId: number;
-  @Output() commentSent = new EventEmitter<void>();
+  @Output() commentChanged = new EventEmitter<void>();
+  hasModificationAccess$: Observable<boolean>;
   currentUser$: Observable<User>;
   unsubscribe$ = new Subject<void>();
+  openTab: number = null;
 
   constructor(
     private store: Store<AppState>,
@@ -50,13 +56,21 @@ export class CommentTreeComponent implements OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  handleExpandChange(expanded: boolean, commentId: number) {
+    if (expanded) {
+      this.openTab = commentId;
+    } else {
+      this.openTab = null;
+    }
+  }
+
   handleSendComment(replyToId: number, comment: string) {
     this.currentUser$
       .pipe(
         takeUntil(this.unsubscribe$),
         switchMap((user) => this.sendComment(user, replyToId, comment))
       )
-      .subscribe(() => this.commentSent.emit());
+      .subscribe(() => this.commentChanged.emit());
   }
 
   private sendComment(
@@ -76,5 +90,19 @@ export class CommentTreeComponent implements OnDestroy {
       author: TopicsHelperService.mapUserToAuthor(user),
       body: comment,
     };
+  }
+
+  handeDelete(commentId: number) {
+    this.topicService
+      .deleteComment(this.topicId, commentId)
+      .pipe(tap(() => this.commentChanged.emit()))
+      .subscribe();
+  }
+
+  handleCommentEdit(commentId: number, value: string) {
+    this.topicService
+      .updateComment(this.topicId, commentId, { body: value })
+      .pipe(tap(() => this.commentChanged.emit()))
+      .subscribe();
   }
 }
