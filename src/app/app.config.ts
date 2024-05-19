@@ -9,6 +9,7 @@ import { metaReducers, reducers } from './reducers';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { UserEffects } from './reducers/user/user.effects';
+import { RolesEffects } from './reducers/roles/roles.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,8 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(reducers, {
       metaReducers: metaReducers,
     }),
-    provideEffects(UserEffects),
+    provideEffects(UserEffects, RolesEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideEffects(),
   ],
 };

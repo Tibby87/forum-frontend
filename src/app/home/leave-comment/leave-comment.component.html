@@ -1,0 +1,17 @@
+<div class="flex column gap-4">
+  <div class="flex row centered gap-32">
+    <input
+      [(ngModel)]="commentBody"
+      (ngModelChange)="handleChange()"
+      [placeholder]="
+        (originalAuthor.id | isCurrentUser | async)
+          ? 'Leave a comment'
+          : 'Reply to ' + originalAuthor.name
+      "
+      type="text"
+      class="nice-input flex-1"
+    />
+    <button class="basic-button" (click)="initCommentSend()">Send</button>
+  </div>
+  <span style="font-size: 12px; color: red">{{ error ?? "" }}</span>
+</div>

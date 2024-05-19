@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { State } from '../reducers';
+import { AppState } from '../reducers';
 import { Observable } from 'rxjs';
 import { User } from '../model/user/user';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { selectCurrentUser } from '../reducers/user/user.selector';
 
 @Component({
   selector: 'app-user-page',
@@ -15,8 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UserPageComponent {
   user$?: Observable<User>;
-  constructor(private store: Store<State>, private route: ActivatedRoute) {
-    this.user$ = this.store.select((state) => state.user.currentUser);
-    console.log(route.snapshot.children);
+  constructor(private store: Store<AppState>) {
+    this.user$ = this.store.select(selectCurrentUser);
   }
 }

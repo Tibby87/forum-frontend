@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { RolesActionType, setRoles } from './roles.actions';
+import { RolesActionType, loadUserRole, setUserRole } from './roles.actions';
 import { map, switchMap } from 'rxjs';
 import { RolesService } from '../../service/roles/roles.service';
-
 @Injectable()
 export class RolesEffects {
   constructor(private actions: Actions, private rolesService: RolesService) {}
-  loadUsers$ = createEffect(() =>
+  loadUserRole$ = createEffect(() =>
     this.actions.pipe(
-      ofType(RolesActionType.LOAD_ROLES),
-      switchMap(() => this.rolesService.getRoles()),
-      map((roles) => setRoles({ roles }))
+      ofType(RolesActionType.LOAD_USER_ROLE),
+      switchMap((action: ReturnType<typeof loadUserRole>) =>
+        this.rolesService.getRoleById(action.roleId)
+      ),
+      map((role) => setUserRole({ userRole: role }))
     )
   );
 }

@@ -1,27 +1,32 @@
 <div class="home-container">
   <section class="intro-section">
-    <h1>Welcome to the Forum</h1>
+    <h1>Welcome to the Forum, dear {{ (currentUser$ | async)?.name }}!</h1>
     <h4>Here you can take part in the most interesting discussions</h4>
   </section>
   <section class="topics-section">
-    <ng-container *ngIf="topics$ | async as topics">
-      <app-topic-list [topics]="topics"></app-topic-list>
+    <ng-container *ngIf="topics; else loading">
+      <app-topic-list
+        *ngIf="topics.length; else empty"
+        [topics]="topics"
+        (commentSent)="initTopics()"
+      ></app-topic-list>
     </ng-container>
   </section>
-  <div
-    style="
-      width: 80%;
-      max-width: 500px;
-
-      margin-inline: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      justify-content: center;
-    "
-  >
+  <div class="topic-input-container flex column gap-8">
     <input type="text" class="nice-input" placeholder="Create a new topic" />
     <p></p>
     <button (click)="sendTopic()" class="basic-button">Send</button>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="flex column centered p-40">
+    <mat-spinner [diameter]="32"></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-template #empty>
+  <div class="flex column centered p-40">
+    <p>There are no topics right now. Feel free to create one.</p>
+  </div>
+</ng-template>

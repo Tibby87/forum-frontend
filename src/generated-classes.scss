@@ -1,0 +1,58 @@
+.flex {
+  &.row,
+  &.column {
+    display: flex;
+  }
+  &.column {
+    flex-direction: column;
+  }
+  &.row {
+    flex-direction: row;
+  }
+  &.centered {
+    align-items: center;
+  }
+  &-1 {
+    flex: 1;
+  }
+}
+
+@mixin set-gap($gap-size) {
+  gap: #{$gap-size}px;
+}
+
+@for $gap from 4 to 100 {
+  .gap-#{$gap} {
+    @include set-gap($gap);
+  }
+}
+
+@mixin set-inline-padding($padding-size) {
+  padding-inline: #{$padding-size}px;
+}
+
+@for $padding from 4 to 100 {
+  .py-#{$padding} {
+    @include set-inline-padding($padding);
+  }
+}
+
+@mixin set-block-padding($padding-size) {
+  padding-block: #{$padding-size}px;
+}
+
+@for $padding from 4 to 100 {
+  .px-#{$padding} {
+    @include set-block-padding($padding);
+  }
+}
+
+@mixin set-top-padding($padding-size) {
+  padding-top: #{$padding-size}px;
+}
+
+@for $padding from 4 to 100 {
+  .pt-#{$padding} {
+    @include set-top-padding($padding);
+  }
+}

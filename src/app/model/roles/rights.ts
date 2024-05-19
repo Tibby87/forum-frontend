@@ -1,4 +1,4 @@
-export enum Rights {
+export enum RightsEnum {
   ADMINISTRATORS = 15,
   GUESTS = 1,
   SILVER_USERS = 3,

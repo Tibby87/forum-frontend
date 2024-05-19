@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { Topic } from '../../model/topics/topic';
+import { Comment } from '../../model/topics/comment';
 import { RestService } from '../rest/rest.service';
 import { Injectable } from '@angular/core';
 
@@ -57,7 +58,7 @@ export class TopicsService {
   ): Observable<Comment> {
     return this.restService.post<Comment>({
       microservice: 'topic',
-      subPath: String(topicId),
+      subPath: String(topicId) + '/comment/add',
       body,
     });
   }

@@ -1,0 +1,37 @@
+<ng-container *ngIf="comments.length > 0">
+  <div style="display: flex; flex-direction: column; gap: 2px">
+    <ng-container *ngFor="let comment of comments">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div>
+              <span
+                [class.author]="comment.author.id | isCurrentUser | async"
+                >{{ comment.author.name }}</span
+              >
+              -
+              <span
+                [class.comment]="comment.author.id | isCurrentUser | async"
+                >{{ comment.body }}</span
+              >
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flex column gap-16">
+          <ng-container *ngIf="comment.comments?.length">
+            <app-comment-tree
+              [comments]="comment.comments"
+              [topicId]="topicId"
+            ></app-comment-tree>
+          </ng-container>
+          <div class="pt-2">
+            <app-leave-comment
+              [originalAuthor]="comment.author"
+              (commentEmmitted)="handleSendComment(comment.id, $event)"
+            ></app-leave-comment>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </ng-container>
+  </div>
+</ng-container>
