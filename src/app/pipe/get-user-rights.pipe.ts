@@ -9,7 +9,7 @@ import { RolesHelperService } from '../service/roles/roles-helper.service';
   standalone: true,
 })
 export class GetUserRightsPipe implements PipeTransform {
-  constructor(private helperService: RolesHelperService) {}
+  constructor() {}
   transform(userRight: RightsEnum): Array<RightNamesEnum> {
     return RolesHelperService.getUserRightArray(userRight);
   }

@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { UserActionType, setCurrentUser, setUsers } from './user.actions';
+import {
+  UserActionType,
+  refetchCurrentUser,
+  setCurrentUser,
+  setUsers,
+} from './user.actions';
 import { UserService } from '../../service/user/user.service';
-import { exhaustMap, map, switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { loadUserRole } from '../roles/roles.actions';
 
 @Injectable()
@@ -26,6 +31,16 @@ export class UserEffects {
       map((action: ReturnType<typeof setCurrentUser>) =>
         loadUserRole({ roleId: action.user.role })
       )
+    )
+  );
+
+  refetchCurrentUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActionType.REFETCH_CURRENT_USER),
+      switchMap((action: ReturnType<typeof refetchCurrentUser>) =>
+        this.userService.getUserById(action.userId)
+      ),
+      map((user) => setCurrentUser({ user }))
     )
   );
 }

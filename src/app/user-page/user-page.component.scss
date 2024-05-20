@@ -1,0 +1,5 @@
+.user-page-content-container {
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+  }
+}

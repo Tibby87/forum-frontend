@@ -1,0 +1,56 @@
+<form class="flex column gap-12" [formGroup]="userForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input
+      matInput
+      type="text"
+      id="name"
+      formControlName="name"
+      minlength="5"
+    />
+    <mat-error> Name must be at least 5 characters long. </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" id="email" formControlName="email" />
+    <mat-error> Invalid email format. </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      [type]="showPassWord ? 'text' : 'password'"
+      id="password"
+      formControlName="password"
+      autocomplete="off"
+    />
+    <button (click)="toggleShowPassword()" matSuffix mat-icon-button>
+      <mat-icon>{{
+        showPassWord ? "visibility_off" : "visibility_outline"
+      }}</mat-icon>
+    </button>
+    <mat-error>
+      Password must be at least 8 characters long, contain at least one
+      lowercase letter, one uppercase letter, and one digit.
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Confirm Password</mat-label>
+    <input
+      matInput
+      [type]="showPassWord ? 'text' : 'password'"
+      id="confirmPassword"
+      formControlName="confirmPassword"
+      autocomplete="off"
+    />
+    <button (click)="toggleShowPassword()" matSuffix mat-icon-button>
+      <mat-icon>{{
+        showPassWord ? "visibility_off" : "visibility_outline"
+      }}</mat-icon>
+    </button>
+    <mat-error> Passwords do not match. </mat-error>
+  </mat-form-field>
+  <button (click)="onSubmit()" class="basic-button">Save</button>
+</form>

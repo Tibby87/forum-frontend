@@ -11,6 +11,7 @@ import { MatCommonModule } from '@angular/material/core';
 import { LayoutComponent } from './layout/layout.component';
 import { Store } from '@ngrx/store';
 import { loadUsers } from './reducers/user/user.actions';
+import { RolesHelperService } from './service/roles/roles-helper.service';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ import { loadUsers } from './reducers/user/user.actions';
     UserService,
     RolesService,
     TopicsService,
+    RolesHelperService,
   ],
 })
 export class AppComponent implements OnInit {

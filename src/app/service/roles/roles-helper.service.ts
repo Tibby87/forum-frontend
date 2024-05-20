@@ -4,7 +4,7 @@ import { RightsEnum } from '../../model/roles/rights';
 import { RightNamesEnum } from '../../model/roles/right-name';
 import { RIGHT_NAME_ARRAY } from '../../constant/right-name-array';
 
-@Injectable({ providedIn: AppComponent })
+@Injectable()
 export class RolesHelperService {
   public static convertRightsToBinary(rights: RightsEnum): string {
     return Number(rights).toString(2);

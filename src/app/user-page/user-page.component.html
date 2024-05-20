@@ -1,80 +1,33 @@
-<ng-container *ngIf="user$ | async as user; else loading">
-  <div class="flex column gap-40">
-    <div class="flex column gap-12 centered">
-      <h1 class="centered">Hi, {{ user.name }}!</h1>
-      <h4>Here you can update yor user details</h4>
-    </div>
-    <form
-      [formGroup]="userForm"
-      (change)="handleChange()"
-      (ngSubmit)="onSubmit()"
-    >
-      <div class="flex column gap-12">
-        <mat-form-field appearance="outline">
-          <mat-label>Name</mat-label>
-          <input
-            matInput
-            type="text"
-            id="name"
-            formControlName="name"
-            minlength="5"
-          />
-          <mat-error> Name must be at least 5 characters long. </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" id="email" formControlName="email" />
-          <mat-error> Invalid email format. </mat-error>
-        </mat-form-field>
-
-        <mat-form-field formGroupName="passwordGroup" appearance="outline">
-          <mat-label>Password</mat-label>
-          <input
-            matInput
-            type="password"
-            id="password"
-            formControlName="password"
-            autocomplete="off"
-          />
-          <button (click)="toggleShowPassword()" matSuffix mat-icon-button>
-            <mat-icon class="cursor=pointer">{{
-              showPassWord ? "visibility_off" : "visibility_outline"
-            }}</mat-icon>
-          </button>
-          <mat-error>
-            Password must be at least 8 characters long, contain at least one
-            lowercase letter, one uppercase letter, and one digit.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field formGroupName="passwordGroup" appearance="outline">
-          <mat-label>Confirm Password</mat-label>
-          <input
-            matInput
-            type="password"
-            id="confirmPassword"
-            formControlName="confirmPassword"
-            autocomplete="off"
-          />
-          <button (click)="toggleShowPassword()" matSuffix mat-icon-button>
-            <mat-icon class="cursor=pointer">{{
-              showPassWord ? "visibility_off" : "visibility_outline"
-            }}</mat-icon>
-          </button>
-          <mat-error>
-            {{ userForm.get('passwordGroup').errors?.['passwordsDontMatch'] ? 
-          'Passwords do not match.' :
-          'Password must be at least 8 characters long, contain at least one lowercase letter, one uppercase letter, and one digit. ' }}
-          </mat-error>
-        </mat-form-field>
-
-        <button type="submit" class="basic-button">Save</button>
+<ng-container
+  *ngIf="
+    {
+      user: user$ | async,
+      userRole: userRole$ | async,
+      activityCount: userActivityCount$ | async
+    } as data;
+    else loading
+  "
+>
+  <ng-container *ngIf="!!data.user && data.activityCount && data.userRole">
+    <div class="flex column gap-40">
+      <div class="flex column gap-12 centered">
+        <h1 class="centered">Hi, {{ data.user.name }}!</h1>
+        <h4>Here you can check your statistics and update yor user details</h4>
       </div>
-    </form>
-  </div>
+      <div class="flex row gap-40 user-page-content-container">
+        <app-user-form class="flex-1" [user]="data.user"></app-user-form>
+        <app-user-info
+          class="flex-1"
+          [userActivityCount]="data.activityCount"
+          [userRole]="data.userRole"
+        ></app-user-info>
+      </div>
+    </div>
+  </ng-container>
 </ng-container>
 
 <ng-template #loading>
-  <p>Loading user...</p>
+  <div class="flex centered p-40">
+    <mat-spinner diameter="32"></mat-spinner>
+  </div>
 </ng-template>

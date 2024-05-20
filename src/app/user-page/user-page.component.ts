@@ -1,104 +1,95 @@
-import { Component, OnInit } from '@angular/core';
-import { AppState } from '../reducers';
-import { Observable, filter, take } from 'rxjs';
-import { User } from '../model/user/user';
+import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CommonModule } from '@angular/common';
+import { AppState } from '../reducers';
+import { Observable, Subject, filter, map, switchMap, takeUntil } from 'rxjs';
+import { User } from '../model/user/user';
 import { selectCurrentUser } from '../reducers/user/user.selector';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { PASSWORD_VALIDATOR } from '../constant/password-validator';
-import { passwordMatchValidator } from '../validator/password-match-validator';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UserFormComponent } from './user-form/user-form.component';
+import { selectUserRole } from '../reducers/roles/roles.selctor';
+import { Role } from '../model/roles/role';
+import { Comment } from '../model/topics/comment';
+import { TopicsService } from '../service/topics/topics.service';
+import { Topic } from '../model/topics/topic';
+import { UserInfoComponent } from './user-info/user-info.component';
 
 @Component({
   selector: 'app-user-page',
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
+    MatProgressSpinnerModule,
+    UserFormComponent,
+    UserInfoComponent,
   ],
   templateUrl: './user-page.component.html',
   styleUrl: './user-page.component.scss',
 })
-export class UserPageComponent implements OnInit {
-  userForm: FormGroup;
+export class UserPageComponent implements OnDestroy {
   user$?: Observable<User>;
-  showPassWord = false;
+  userRole$: Observable<Role>;
+  unsubscribe$ = new Subject<void>();
+  userActivityCount$: Observable<UserActivityCount>;
 
   constructor(
     private store: Store<AppState>,
-    private formBuilder: FormBuilder
+    private topicService: TopicsService
   ) {
     this.user$ = this.store.select(selectCurrentUser);
+    this.userRole$ = this.store.select(selectUserRole);
+    this.userActivityCount$ = this.getUserActivityCount();
   }
 
-  ngOnInit(): void {
-    this.initForm();
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
-  private initForm(): void {
-    this.user$
-      .pipe(
-        filter((user) => !!user),
-        take(1)
-      )
-      .subscribe((user) => {
-        this.userForm = this.formBuilder.group({
-          name: [user.name, [Validators.minLength(5)]],
-          email: [user.email, [Validators.email]],
-          passwordGroup: this.formBuilder.group(
-            {
-              password: [
-                user.password,
-                [Validators.pattern(PASSWORD_VALIDATOR)],
-              ],
-              confirmPassword: [
-                user.password,
-                [Validators.pattern(PASSWORD_VALIDATOR)],
-              ],
-            },
-            { validators: [passwordMatchValidator] }
-          ),
-        });
-      });
+  private getUserActivityCount(): Observable<UserActivityCount> {
+    return this.user$.pipe(
+      filter((user) => !!user),
+      takeUntil(this.unsubscribe$),
+      switchMap((user) => this.getCountFromTopics(user))
+    );
   }
 
-  handleChange() {
-    console.log(this.userForm.errors);
+  private getCountFromTopics(user: User): Observable<UserActivityCount> {
+    return this.topicService.getAllTopics().pipe(
+      map((topics) => {
+        return {
+          comments: this.getUserCommentCount(topics, user.id),
+          topics: this.getUserTopicCount(topics, user.id),
+        };
+      })
+    );
   }
 
-  toggleShowPassword() {
-    this.showPassWord = !this.showPassWord;
+  private getUserTopicCount(topics: Array<Topic>, userId: number): number {
+    return topics.filter((topic) => topic.author.id === userId).length;
   }
 
-  get updatedName(): string {
-    return this.userForm.get('name').value;
-  }
+  private getUserCommentCount(topics: Array<Topic>, userId: number): number {
+    let commentCount = 0;
 
-  get updatedEmail(): string {
-    return this.userForm.get('email').value;
-  }
+    const traverseComments = (comments: Array<Comment>) => {
+      for (const comment of comments) {
+        if (comment.author.id === userId) {
+          commentCount++;
+        }
+        if (comment.comments && comment.comments.length > 0) {
+          traverseComments(comment.comments);
+        }
+      }
+    };
 
-  get updtedPassword(): string {
-    return this.userForm.get('password').value;
-  }
+    topics.forEach((topic) => traverseComments(topic.comments));
 
-  onSubmit() {
-    if (this.userForm.invalid) {
-      return;
-    }
-    console.log(this.userForm);
+    return commentCount;
   }
+}
+
+export interface UserActivityCount {
+  topics: number;
+  comments: number;
 }

@@ -1,0 +1,30 @@
+<div class="flex column gap-16">
+  <h3>Here is some info about you</h3>
+  <div class="flex column gap-12">
+    <p>You are one of the {{ userRole.name }}</p>
+    <div class="flex column gap-4">
+      <p>You can:</p>
+      <div class="flex column gap-2">
+        <p
+          style="color: green"
+          *ngFor="let right of userRole.rights | getUserRights"
+        >
+          {{ right }}
+        </p>
+      </div>
+    </div>
+    <div class="flex column gap-4">
+      <p>You cannot:</p>
+      <div class="flex coulm gap-2">
+        <p
+          style="color: red"
+          *ngFor="let noRight of userRole.rights | usersDeniedActivity"
+        >
+          {{ noRight }}
+        </p>
+      </div>
+    </div>
+    <p>You have created {{ userActivityCount.topics }} topics</p>
+    <p>You have added {{ userActivityCount.comments }} comments</p>
+  </div>
+</div>
