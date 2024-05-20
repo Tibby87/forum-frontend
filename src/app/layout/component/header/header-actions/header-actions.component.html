@@ -9,13 +9,16 @@
       {{ user.name }}
     </span>
   </p>
-  <mat-icon
-    (click)="navigateToUserPage(user)"
-    class="user-icon"
-    matTooltip="Go to user page"
-  >
+  <mat-icon routerLink="/user" class="user-icon" matTooltip="Go to user page">
     person
   </mat-icon>
+  <mat-icon
+    *ngIf="user.role === roleIdEnum.ADMIN"
+    class="user-icon"
+    routerLink="/admin"
+    matTooltip="Go to admin page"
+    >admin_panel_settings</mat-icon
+  >
 </section>
 
 <mat-menu #menu="matMenu">
@@ -23,8 +26,8 @@
     <ng-container *ngFor="let user of users">
       <button (click)="setUser(user)" mat-menu-item>
         <mat-icon>person_outline</mat-icon>
-        <span>{{ user.name }} ({{ user.role }})</span>
+        <span>{{ user.name }}</span>
       </button>
-    </ng-container></ng-container
-  >
+    </ng-container>
+  </ng-container>
 </mat-menu>

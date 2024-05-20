@@ -108,7 +108,7 @@ export class UserFormComponent implements OnChanges {
       .updateUserDetails(this.user.id, this.getDataToSubmit(this.user))
       .pipe(
         tap((user) => {
-          this.store.dispatch(refetchCurrentUser({ userId: user.id }));
+          this.store.dispatch(refetchCurrentUser());
           this.store.dispatch(loadUsers());
         })
       )

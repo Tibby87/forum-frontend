@@ -11,8 +11,7 @@ export enum UserActionType {
 export const loadUsers = createAction(UserActionType.LOAD_USERS);
 
 export const refetchCurrentUser = createAction(
-  UserActionType.REFETCH_CURRENT_USER,
-  props<{ userId: number }>()
+  UserActionType.REFETCH_CURRENT_USER
 );
 
 export const setUsers = createAction(

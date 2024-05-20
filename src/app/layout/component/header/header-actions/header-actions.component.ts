@@ -9,11 +9,12 @@ import { Observable, share } from 'rxjs';
 import { User } from '../../../../model/user/user';
 import { setCurrentUser } from '../../../../reducers/user/user.actions';
 import { AppState } from '../../../../reducers';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   selectCurrentUser,
   selectUsers,
 } from '../../../../reducers/user/user.selector';
+import { RoleIdEnum } from '../../../../model/roles/role-id';
 
 @Component({
   selector: 'app-header-actions',
@@ -24,6 +25,7 @@ import {
     CommonModule,
     MatButtonModule,
     MatTooltipModule,
+    RouterModule,
   ],
   templateUrl: './header-actions.component.html',
   styleUrl: './header-actions.component.scss',
@@ -31,6 +33,8 @@ import {
 export class HeaderActionsComponent {
   users$?: Observable<Array<User>>;
   currentUser$?: Observable<User>;
+
+  roleIdEnum = RoleIdEnum;
 
   constructor(private store: Store<AppState>, private router: Router) {
     this.users$ = this.store.select(selectUsers);
@@ -41,7 +45,7 @@ export class HeaderActionsComponent {
     this.store.dispatch(setCurrentUser({ user }));
   }
 
-  navigateToUserPage(user: User) {
+  navigateToUserPage() {
     this.router.navigate(['/user']);
   }
 }

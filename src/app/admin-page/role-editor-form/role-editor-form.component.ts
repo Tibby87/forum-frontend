@@ -17,6 +17,10 @@ import { tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../reducers';
 import { loadRoles } from '../../reducers/roles/roles.actions';
+import {
+  loadUsers,
+  refetchCurrentUser,
+} from '../../reducers/user/user.actions';
 
 @Component({
   selector: 'app-role-editor-form',
@@ -78,6 +82,8 @@ export class RoleEditorFormComponent implements OnChanges {
             duration: 50000,
           }),
             this.store.dispatch(loadRoles());
+          this.store.dispatch(loadUsers());
+          this.store.dispatch(refetchCurrentUser());
         })
       )
       .subscribe();
