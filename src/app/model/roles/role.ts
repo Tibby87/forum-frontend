@@ -1,8 +1,9 @@
 import { RightsEnum } from './rights';
-import { RoleName } from './role-name';
+import { RoleIdEnum } from './role-id';
+import { RoleNameEnum } from './role-name';
 
 export interface Role {
-  id: number;
-  name: RoleName;
+  id: RoleIdEnum;
+  name: RoleNameEnum;
   rights: RightsEnum;
 }
