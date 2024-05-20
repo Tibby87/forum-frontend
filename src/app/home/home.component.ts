@@ -45,6 +45,9 @@ export class HomeComponent {
   }
 
   showModificationSnackBar(): void {
-    this.snackBar.open('Successfully modified');
+    this.snackBar.open('Successfully action', null, {
+      duration: 5000,
+      verticalPosition: 'top',
+    });
   }
 }
