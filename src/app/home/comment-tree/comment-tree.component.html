@@ -8,8 +8,11 @@
       >
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <div class="flex row gap-20">
-              <p [class.comment-removed]="comment.removed">
+            <div
+              [class.comment-removed]="comment.removed"
+              class="flex row gap-20"
+            >
+              <p>
                 <span
                   [ngClass]="
                     (comment.author.id | isCurrentUser | async)
@@ -38,6 +41,7 @@
                 (deleteConfirmed)="handeDelete(comment.id)"
                 (contentModified)="handleCommentEdit(comment.id, $event)"
                 [hideDelete]="comment.removed"
+                [hideEdit]="(currentUser$ | async).id !== comment.author.id"
               ></app-topic-actions>
             </div>
           </mat-panel-title>

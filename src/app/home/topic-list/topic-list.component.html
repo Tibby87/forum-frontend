@@ -10,8 +10,9 @@
             <span class="topic-title">{{ topic.title }}</span>
             <app-topic-actions
               *ngIf="topic.author.id | hasModificationAccess : 'topic' | async"
-              context="topic title"
+              context="topic"
               [contentToEdit]="topic.title"
+              [hideEdit]="(currentUser$ | async).id !== topic.author.id"
               (contentModified)="handleTopicEdited(topic.id, 'title', $event)"
               (deleteConfirmed)="handleDeleteTopic(topic.id)"
             ></app-topic-actions>
@@ -28,8 +29,9 @@
           </p>
           <app-topic-actions
             *ngIf="topic.author.id | hasModificationAccess : 'topic' | async"
-            [context]="'topic body'"
+            [context]="'topic'"
             [contentToEdit]="topic.body"
+            [hideEdit]="(currentUser$ | async).id !== topic.author.id"
             [hideDelete]="true"
             (contentModified)="handleTopicEdited(topic.id, 'body', $event)"
           ></app-topic-actions>

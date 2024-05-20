@@ -9,9 +9,10 @@
   color: cadetblue;
 }
 .comment-removed {
-  text-decoration: line-through;
-  text-decoration: wavy;
+  text-decoration-line: line-through;
+  text-decoration-color: red;
+  text-decoration-thickness: 2px;
 }
-input.nice-input {
-  margin-top: 8px;
-}
+// input.nice-input {
+//   margin-top: 8px;
+// }

@@ -14,7 +14,6 @@ import {
 import { Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../reducers';
-import { selectIsCurrentUser } from '../../reducers/user/user.selector';
 
 @Component({
   selector: 'app-topic-actions',
@@ -33,10 +32,10 @@ export class TopicActionsComponent {
   @Input() contentToEdit: string;
   @Input() context: TopicActionContext;
   @Input() hasAccess: boolean;
-  @Input() hideDelete: boolean;
+  @Input() hideDelete = false;
+  @Input() hideEdit = false;
   @Output() deleteConfirmed = new EventEmitter<void>();
   @Output() contentModified = new EventEmitter<string>();
-  isCurrentUser: Observable<boolean>;
 
   constructor(private dialog: MatDialog, private store: Store<AppState>) {}
 
