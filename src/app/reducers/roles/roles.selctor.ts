@@ -5,6 +5,11 @@ import { RightNamesEnum } from '../../model/roles/right-name';
 
 export const selectRolesState = createFeatureSelector<RolesState>('roles');
 
+export const selectRoles = createSelector(
+  selectRolesState,
+  (state) => state?.roles
+);
+
 export const selectUserRole = createSelector(
   selectRolesState,
   (state) => state?.userRole

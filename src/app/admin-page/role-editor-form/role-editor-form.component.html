@@ -1,0 +1,33 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="roleForm">
+  <div class="flex column gap-20 pt-8">
+    <div class="flex column gap-12">
+      <p>Change the name of this role</p>
+      <mat-form-field appearance="outline">
+        <mat-label>Role name</mat-label>
+        <input
+          matInput
+          formControlName="roleName"
+          id="roleName"
+          name="roleName"
+          type="text"
+        />
+        <mat-error>This field is required</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="flex column gap-12">
+      <p>Modify the rights that are associated with this role</p>
+      <mat-radio-group formControlName="rights" id="rights">
+        <div class="flex column gap-8">
+          @for (right of rights; track $index) {
+          <mat-radio-button [value]="right"
+            >{{ right | getUserRights }}
+          </mat-radio-button>
+          }
+        </div>
+      </mat-radio-group>
+    </div>
+    <button style="align-self: flex-start" class="basic-button" type="submit">
+      Save
+    </button>
+  </div>
+</form>

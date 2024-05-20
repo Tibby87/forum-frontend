@@ -18,10 +18,7 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(UserActionType.LOAD_USERS),
       switchMap(() => this.userService.getUsers()),
-      switchMap((users) => [
-        setUsers({ users }),
-        setCurrentUser({ user: users[0] }),
-      ])
+      map((users) => setUsers({ users }))
     )
   );
 

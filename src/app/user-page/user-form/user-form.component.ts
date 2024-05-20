@@ -19,7 +19,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { UserUpdateFormService } from '../../service/user/user-update-form.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserUpdateFormData } from '../../model/user/user-update-form-data';
-import { refetchCurrentUser } from '../../reducers/user/user.actions';
+import {
+  loadUsers,
+  refetchCurrentUser,
+} from '../../reducers/user/user.actions';
 
 @Component({
   selector: 'app-user-form',
@@ -104,9 +107,10 @@ export class UserFormComponent implements OnChanges {
     this.userUpdateService
       .updateUserDetails(this.user.id, this.getDataToSubmit(this.user))
       .pipe(
-        tap((user) =>
-          this.store.dispatch(refetchCurrentUser({ userId: user.id }))
-        )
+        tap((user) => {
+          this.store.dispatch(refetchCurrentUser({ userId: user.id }));
+          this.store.dispatch(loadUsers());
+        })
       )
       .subscribe();
   }

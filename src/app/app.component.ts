@@ -10,8 +10,11 @@ import { TopicsService } from './service/topics/topics.service';
 import { MatCommonModule } from '@angular/material/core';
 import { LayoutComponent } from './layout/layout.component';
 import { Store } from '@ngrx/store';
-import { loadUsers } from './reducers/user/user.actions';
+import { loadUsers, setCurrentUser } from './reducers/user/user.actions';
 import { RolesHelperService } from './service/roles/roles-helper.service';
+import { loadRoles } from './reducers/roles/roles.actions';
+import { selectUsers } from './reducers/user/user.selector';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -40,5 +43,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadUsers());
+    this.store.dispatch(loadRoles());
+    this.store
+      .select(selectUsers)
+      .pipe(
+        filter((users) => !!users),
+        take(1)
+      )
+      .subscribe((users) =>
+        this.store.dispatch(setCurrentUser({ user: users[0] }))
+      );
   }
 }

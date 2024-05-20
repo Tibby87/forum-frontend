@@ -1,0 +1,10 @@
+<mat-form-field appearance="outline">
+  <mat-select
+    (selectionChange)="handleRoleSelection($event.value)"
+    [value]="selectedRole"
+  >
+    @for (role of roles; track $index) {
+    <mat-option [value]="role">{{ role.name }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>

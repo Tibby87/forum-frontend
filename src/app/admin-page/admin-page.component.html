@@ -1,1 +1,29 @@
-<p>admin-page works!</p>
+<ng-container *ngIf="roles$ | async as roles; else loading">
+  <div class="flex column gap-40">
+    <div class="flex column centered gap-12">
+      <h1>Admin page</h1>
+      <h4>
+        Here you can modify roles, and move users from one role to another
+      </h4>
+    </div>
+    <app-role-selector
+      [roles]="roles"
+      [selectedRole]="selectedRole"
+      (roleChanged)="selectedRole = $event"
+    ></app-role-selector>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Edit role: {{ selectedRole.name }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-role-editor-form
+        [selectedRole]="selectedRole"
+      ></app-role-editor-form>
+    </mat-expansion-panel>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="flex centered">
+    <mat-spinner [diameter]="40"></mat-spinner>
+  </div>
+</ng-template>
